@@ -15,8 +15,8 @@
 | GET       | `/mapa`                                            | Muestra el mapa                                                                                  |      |
 | GET       | `/campos/crear`                                    | Muestra la vista con el formulario para crear un campo                                           |      |
 | POST      | `/campos/crear`                                    | Crea un campo nuevo que se vera como un marker                                                   |      |
-| GET       | `/fields`                                          | Obtiene de la API todos los markers los campos para pintarlos en pantalla                        | ✅    |
-| GET       | `/fields/detail/:field_id`                         | Obtiene de la API la info del marker sobre el que el usuario ha pinchado                         | ✅    |
+| GET       | `/fields`                                          | Obtiene de la API todos los markers los campos para pintarlos en pantalla                        |  ✅  |
+| GET       | `/fields/detail/:field_id`                         | Obtiene de la API la info del marker sobre el que el usuario ha pinchado                         |  ✅  |
 | GET       | `/campos/editar/:campo_id`                         | Muestra la vista con el formulario para editar un campo                                          |      |
 | POST      | `/campos/editar/:campo_id`                         | Permite a un usuario con permisos editar un campo                                                |      |
 | POST      | `/campos/borrar/:campo_id`                         | Permite a un usuario con permisos borrar un campo                                                |      |
