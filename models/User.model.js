@@ -18,6 +18,16 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ['PLAYER', 'ADMIN', 'ORGANICER'],
+      default: 'PLAYER',
+    },
+    matches: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Match'
     }
   },
   {

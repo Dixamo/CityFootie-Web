@@ -9,6 +9,8 @@ const hbs = require("hbs")
 const app = express()
 
 require("./config")(app)
+require('./config/session.config')(app)
+
 require('./routes')(app)
 require("./error-handling")(app)
 
