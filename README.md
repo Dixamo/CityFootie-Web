@@ -20,7 +20,7 @@
 | GET       | `/campos/editar/:campo_id`                         | Muestra la vista con el formulario para editar un campo                                          |      |
 | POST      | `/campos/editar/:campo_id`                         | Permite a un usuario con permisos editar un campo                                                |      |
 | POST      | `/campos/borrar/:campo_id`                         | Permite a un usuario con permisos borrar un campo                                                |      |
-| POST      | `/partidos/campo_id`                               | Crea un partido nuevo vinculado a un campo                                                       |      |
+| POST      | `/partidos/:campo_id`                              | Crea un partido nuevo vinculado a un campo                                                       |      |
 | GET       | `/partidos/detalle/:campo_id`                      | Muestra el partido vinculado al campo sobre el que se ha hecho click                             |      |
 | POST      | `/partidos/:partido_id/añadir-jugador/:jugador_id` | Permite a un usuario unirse a un partido                                                         |      |
 | POST      | `/partidos/:partido_id/quitar-jugador/:jugador_id` | Permite a un usuario quitarse de un partido                                                      |      |
