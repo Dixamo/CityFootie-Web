@@ -31,6 +31,7 @@ router.post('/iniciar-sesion', isLoggedOut, (req, res, next) => {
     if(email.length === 0 || password.length === 0){
         res.render('auth/login',{errorMesage: 'Relleno todos los campos'})
     }
+    
     User
         .findOne({email})
         .then(foundUser=>{

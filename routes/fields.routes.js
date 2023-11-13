@@ -2,9 +2,25 @@ const express = require('express')
 const router = express.Router()
 
 const Field = require('../models/Field.model')
+const Match = require('../models/Match.model')
 
 router.get('/mapa', (req, res, next)=>{
     res.render('fields/maps')
+})
+
+router.get('/campos/detalles/:campo_id', (req, res, next) => {
+    const { campo_id } = req.params
+
+    Promise.all(
+        [
+            Field.findById(campo_id),
+            Match.find({ field: campo_id })
+        ]
+    )
+    .then(values => {
+        res.render('fields/field-detail', { field: values[0], matches: values[1] })
+    })
+    .catch(err => next(err))
 })
 
 router.get('/campos/crear', (req, res, next) => {
