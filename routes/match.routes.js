@@ -9,7 +9,7 @@ const Field = require('../models/Field.model')
 
 
 
-router.get('/partidos/detalles/:campo_id/crear', (req, res, next) => {
+router.get('/campos/detalles/:campo_id/crear', (req, res, next) => {
 
     const { campo_id } = req.params
 

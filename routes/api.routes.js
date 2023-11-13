@@ -1,15 +1,15 @@
-// const express = require('express')
-// const router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-// const Fields = require('../models/Fields.model')
+const Fields = require('../models/Field.model')
 
 
-// router.get('/campos', (req,res,next)=>{
+router.get('/campos', (req, res, next) => {
 
-//     Fields
-//         .find()
-//         .then(fields => res.json(fields))
-//         .catch(err => res.status(500).json({ message: 'Server issue D:', errorDetails: err }))
-// })
+    Fields
+        .find()
+        .then(fields => res.json(fields))
+        .catch(err => res.status(500).json({ message: 'Server issue D:', errorDetails: err }))
+})
 
-// module.exports = router
+module.exports = router

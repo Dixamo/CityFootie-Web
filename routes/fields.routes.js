@@ -4,7 +4,7 @@ const router = express.Router()
 const Field = require('../models/Field.model')
 const Match = require('../models/Match.model')
 
-router.get('/mapa', (req, res, next)=>{
+router.get('/mapa', (req, res, next) => {
     res.render('fields/maps')
 })
 
@@ -17,10 +17,10 @@ router.get('/campos/detalles/:campo_id', (req, res, next) => {
             Match.find({ field: campo_id })
         ]
     )
-    .then(values => {
-        res.render('fields/field-detail', { field: values[0], matches: values[1] })
-    })
-    .catch(err => next(err))
+        .then(values => {
+            res.render('fields/field-detail', { field: values[0], matches: values[1] })
+        })
+        .catch(err => next(err))
 })
 
 router.get('/campos/crear', (req, res, next) => {
@@ -46,5 +46,8 @@ router.get('/campos/editar/:campo_id', (req, res, next) => {
         .then(field => res.render('fields/edit-field', field))
         .catch(err => next(err))
 })
+
+
+
 
 module.exports = router

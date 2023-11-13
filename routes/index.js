@@ -7,12 +7,12 @@ module.exports = app => {
     app.use("/", authRoutes)
 
     const fieldsRoutes = require('./fields.routes')
-    app.use('/', fieldsRoutes)    
+    app.use('/', fieldsRoutes)
 
-    // const apiRoutes = require('./api.routes')
-    // app.use('/api', apiRoutes)
+    const apiRoutes = require('./api.routes')
+    app.use('/api', apiRoutes)
 
     const matchRoutes = require('./match.routes')
     app.use('/', matchRoutes)
-    
+
 }
