@@ -22,15 +22,15 @@ router.get('/campos/detalles/:campo_id/crear', (req, res, next) => {
 
 
 
-router.post('campos/detalles/:campo_id/crear', (req, res, next) => {
-    const { campo_id: field } = req.params
-    const { date } = req.body
+// router.post('campos/detalles/:campo_id/crear', (req, res, next) => {
+//     const { campo_id: field } = req.params
+//     const { date } = req.body
 
-    Match
-        .create({ date, field })
-        .then(details => res.redirect('/campos/detalles/', details))
-        .catch(err => next(err))
-})
+//     Match
+//         .create({ date, field })
+//         .then(details => res.redirect('/campos/detalles/', details))
+//         .catch(err => next(err))
+// })
 
 // router.get('/detalles/:book_id', (req, res) => {
 

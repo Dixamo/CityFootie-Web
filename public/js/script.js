@@ -29,19 +29,17 @@ function getFieldFromApi() {
 
 
 function printFieldMarkers(fields) {
-
   fields.forEach(elm => {
-
     const position = { lat: elm.location.coordinates[0], lng: elm.location.coordinates[1] }
-
-
-
-    new google.maps.Marker({
-      map: myMaps,
-      position,
-      title: elm.name,
-      url: `http://localhost:5005`
-
+    const marker = new google.maps.Marker(
+      {
+        map: myMaps,
+        position,
+        title: elm.name
+      }
+    )
+    marker.addListener('click', () => {
+      setTimeout(() => location.href = `http://localhost:5005/campos/detalles/${elm._id}`, 200)
     })
   })
 }
