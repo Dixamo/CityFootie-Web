@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res, next) => {
-    //res.render('')
+router.get('/usuarios/perfil', (req, res, next) => {
+    res.render('user/user-details', { user: req.session.currentUser })
 })
 
 
