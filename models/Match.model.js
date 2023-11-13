@@ -10,10 +10,12 @@ const matchSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'Field'
     },
-    assistants: {
-        type: [Schema.Types.ObjectId], 
+    assistants: [
+      {
+        type: Schema.Types.ObjectId, 
         ref: 'User'
-    }
+      }
+    ]
   },
   {
     timestamps: true

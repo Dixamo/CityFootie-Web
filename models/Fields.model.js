@@ -20,10 +20,12 @@ const fieldSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    matches: {
-        type: [Schema.Types.ObjectId],
+    matches: [
+      {
+        type: Schema.Types.ObjectId,
         ref: 'Match'
-    }
+      }
+    ]
   },
   {
     timestamps: true

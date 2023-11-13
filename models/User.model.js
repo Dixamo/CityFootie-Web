@@ -24,10 +24,6 @@ const userSchema = new Schema(
       required: true,
       enum: ['PLAYER', 'ADMIN', 'ORGANICER'],
       default: 'PLAYER',
-    },
-    matches: {
-      type: [Schema.Types.ObjectId],
-      ref: 'Match'
     }
   },
   {
