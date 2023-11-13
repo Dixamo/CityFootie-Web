@@ -9,7 +9,7 @@ const Field = require('../models/Field.model')
 
 
 
-router.get('/campos/detalles/:campo_id/crear', (req, res, next) => {
+router.get('/partidos/crear/:campo_id', (req, res, next) => {
 
     const { campo_id } = req.params
 
@@ -22,15 +22,20 @@ router.get('/campos/detalles/:campo_id/crear', (req, res, next) => {
 
 
 
-// router.post('campos/detalles/:campo_id/crear', (req, res, next) => {
-//     const { campo_id: field } = req.params
-//     const { date } = req.body
+router.post('/partidos/crear/:campo_id', (req, res, next) => {
+    const { campo_id: field } = req.params
+    const { date } = req.body
 
-//     Match
-//         .create({ date, field })
-//         .then(details => res.redirect('/campos/detalles/', details))
-//         .catch(err => next(err))
-// })
+
+    Match
+
+        .create({ date, field })
+        .then(() => res.redirect(`/campos/detalles/${field}`))
+        .catch(err => next(err))
+})
+
+
+
 
 // router.get('/detalles/:book_id', (req, res) => {
 
@@ -56,6 +61,20 @@ router.get('/campos/detalles/:campo_id/crear', (req, res, next) => {
 // assistants:    type: Schema.Types.ObjectId,
 //         ref: 'User'
 
+router.get('/campos/detalles/:campo_id', (req, res, next) => {
+    const { campo_id } = req.params
+
+    Promise.all(
+        [
+            Field.findById(campo_id),
+            Match.find({ field: campo_id })
+        ]
+    )
+        .then(values => {
+            res.render('fields/field-detail', { field: values[0], matches: values[1] })
+        })
+        .catch(err => next(err))
+})
 
 
 

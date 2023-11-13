@@ -1,3 +1,7 @@
 <p>{{field.name}}</p>
-<p>{{matches}}</p>
-<a href="/campos/detalles/{{field._id}}/crear">crear partido</a>
+{{#each matches}}
+<p>{{date}}</p>
+<a href="/partidos/editar/{{_id}}">editar</a>
+{{/each}}
+
+<a href="/partidos/crear/{{field._id}}">crear partido</a>
