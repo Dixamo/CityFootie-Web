@@ -22,7 +22,7 @@ function renderMap() {
 function getFieldFromApi() {
 
   axios
-    .get('/api/campos')
+    .get('/api/fields')
     .then(response => printFieldMarkers(response.data))
     .catch(err => console.log(err))
 }

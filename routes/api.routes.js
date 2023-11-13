@@ -4,7 +4,7 @@ const router = express.Router()
 const Fields = require('../models/Field.model')
 
 
-router.get('/campos', (req, res, next) => {
+router.get('/fields', (req, res, next) => {
 
     Fields
         .find()

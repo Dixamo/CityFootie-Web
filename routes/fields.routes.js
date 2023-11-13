@@ -33,6 +33,7 @@ router.post('/campos/crear', (req, res, next) => {
         type: 'Point',
         coordinates: [latitude, longitude]
     }
+
     Field
         .create({ name, location })
         .then(() => res.redirect('/mapa'))
@@ -41,13 +42,25 @@ router.post('/campos/crear', (req, res, next) => {
 
 router.get('/campos/editar/:campo_id', (req, res, next) => {
     const { campo_id } = req.params
+
     Field
         .findById(campo_id)
         .then(field => res.render('fields/edit-field', field))
         .catch(err => next(err))
 })
 
+router.post('/campos/editar/:campo_id', (req, res, next) => {
+    const { campo_id } = req.params
+    const { name, latitude, longitude } = req.body
+    const location = {
+        type: 'Point',
+        coordinates: [latitude, longitude]
+    }
 
-
+    Field
+        .findByIdAndUpdate(campo_id, { name, location })
+        .then(field => res.redirect('/mapa'))
+        .catch(err => next(err))
+})
 
 module.exports = router

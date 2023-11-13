@@ -1,21 +1,21 @@
-<h1>Crear campo</h1>
+<h1>Editar campo</h1>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h1>Acceso</h1>
             <hr>
-            <form action="/campos/crear" method="POST">
+            <form action="/campos/editar/{{_id}}" method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre</label>
-                    <input type="name" class="form-control" id="name" name="name">
+                    <input type="name" class="form-control" id="name" name="name" value="{{name}}">
                 </div>
                 <div class="mb-3">
                     <label for="latitude" class="form-label">Latitud</label>
-                    <input type="latitude" class="form-control" id="latitude" name="latitude">
+                    <input type="latitude" class="form-control" id="latitude" name="latitude" value="{{location.coordinates.[0]}}">
                 </div>
                 <div class="mb-3">
                     <label for="longitude" class="form-label">Longitud</label>
-                    <input type="longitude" class="form-control" id="longitude" name="longitude">
+                    <input type="longitude" class="form-control" id="longitude" name="longitude" value="{{location.coordinates.[1]}}">
                 </div>
 
                 {{#if errorMessage}}
