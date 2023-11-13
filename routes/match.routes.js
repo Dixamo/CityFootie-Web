@@ -35,6 +35,21 @@ router.post('/partidos/crear/:campo_id', (req, res, next) => {
 })
 
 
+router.get('/partidos/editar/:partido_id', (req, res, next) => {
+
+    const { partido_id } = req.params
+    const { date } = req.body
+
+    Match
+        .findById(partido_id)
+        .populate('field')
+        .then(match => res.render('match/edit-match', match))
+        .catch(err => next(err))
+
+
+})
+
+
 
 
 // router.get('/detalles/:book_id', (req, res) => {
