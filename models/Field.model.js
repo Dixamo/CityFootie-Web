@@ -19,13 +19,7 @@ const fieldSchema = new Schema(
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    },
-    matches: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Match'
-      }
-    ]
+    }
   },
   {
     timestamps: true

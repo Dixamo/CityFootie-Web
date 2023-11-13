@@ -11,4 +11,8 @@ module.exports = app => {
 
     // const apiRoutes = require('./api.routes')
     // app.use('/api', apiRoutes)
+
+    const matchRoutes = require('./match.routes')
+    app.use('/', matchRoutes)
+    
 }
