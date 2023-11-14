@@ -24,8 +24,8 @@
 | GET       | `/partidos/crear/:campo_id`                              | Muestra la vista para crear un partido en un campo                                                 |
 | POST      | `/partidos/crear/:campo_id`                              | Crea un partido nuevo vinculado a un campo                                                       |      |
 | GET       | `/partidos/detalles/:partido_id`                      | Muestra el partido vinculado al campo sobre el que se ha hecho click                             |      |
-| POST      | `/partidos/:partido_id/añadir-jugador/:jugador_id` | Permite a un usuario unirse a un partido                                                         |      |
-| POST      | `/partidos/:partido_id/quitar-jugador/:jugador_id` | Permite a un usuario quitarse de un partido                                                      |      |
+| POST      | `/partidos/añadir-usuario/:partido_id` | Permite a un usuario unirse a un partido                                                         |      |
+| POST      | `/partidos/quitar-usuario/:partido_id` | Permite a un usuario quitarse de un partido                                                      |      |
 | GET       | `/partidos/editar/:partido_id`                     | Muestra la vista con el formulario para editar un partido                                        |      |
 | POST      | `/partidos/editar/:partido_id`                     | Permite a un usuario con permisos editar un partido                                              |      |
 | POST      | `/partidos/borrar/:partido_id`                     | Permite a un usuario con permisos borrar un partido  

@@ -8,13 +8,13 @@ router.get('/mapa', (req, res, next) => {
     res.render('fields/maps')
 })
 
-router.get('/campos/detalles/:campo_id', (req, res, next) => {
-    const { campo_id } = req.params
+router.get('/campos/detalles/:field_id', (req, res, next) => {
+    const { field_id } = req.params
 
     Promise.all(
         [
-            Field.findById(campo_id),
-            Match.find({ field: campo_id })
+            Field.findById(field_id),
+            Match.find({ field: field_id })
         ]
     )
         .then(values => {
@@ -40,17 +40,17 @@ router.post('/campos/crear', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/campos/editar/:campo_id', (req, res, next) => {
-    const { campo_id } = req.params
+router.get('/campos/editar/:field_id', (req, res, next) => {
+    const { field_id } = req.params
 
     Field
-        .findById(campo_id)
+        .findById(field_id)
         .then(field => res.render('fields/edit-field', field))
         .catch(err => next(err))
 })
 
-router.post('/campos/editar/:campo_id', (req, res, next) => {
-    const { campo_id } = req.params
+router.post('/campos/editar/:field_id', (req, res, next) => {
+    const { field_id } = req.params
     const { name, latitude, longitude } = req.body
     const location = {
         type: 'Point',
@@ -58,9 +58,17 @@ router.post('/campos/editar/:campo_id', (req, res, next) => {
     }
 
     Field
-        .findByIdAndUpdate(campo_id, { name, location })
+        .findByIdAndUpdate(field_id, { name, location })
         .then(field => res.redirect('/mapa'))
         .catch(err => next(err))
 })
 
+router.post('/campos/borrar/:field_id', (req, res, next) => {
+    const { field_id } = req.params
+
+    Field
+        .findByIdAndDelete(field_id)
+        .then(() => res.redirect('/mapa'))
+        .catch(err => next(err))
+})
 module.exports = router

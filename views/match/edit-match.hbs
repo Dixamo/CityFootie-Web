@@ -6,6 +6,12 @@
             <h1>edita partido en el campo:{{name}}</h1>
             {{/with}}
 
+            <form action="/partidos/anadir/{{_id}}" method="post">
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark">Añadir jugador</button>
+                </div>
+            </form>
+
             <hr>
             <form action="/partidos/editar/{{_id}}" method="POST">
                 <div class="mb-3">
