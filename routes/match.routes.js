@@ -4,25 +4,21 @@ const router = express.Router()
 const Match = require('../models/Match.model')
 const Field = require('../models/Field.model')
 
+const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
-
-router.get('/partidos/crear/:campo_id', (req, res, next) => {
-    const { campo_id } = req.params
+router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+    const { field_id } = req.params
 
     Field
-        .findById(campo_id)
-        .then(field => res.render('match/create-match', field))
+        .findById(field_id)
+        .then(field => res.render('match/create-match', { field }))
         .catch(err => next(err))
-
 })
 
-
-
-router.post('/partidos/crear/:field_id', (req, res, next) => {
+router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
     const { field_id } = req.params
     const { date } = req.body
     const matchDate = new Date(date)
-
 
     Match
         .find({ field: field_id })
@@ -48,41 +44,80 @@ router.post('/partidos/crear/:field_id', (req, res, next) => {
                 res.redirect(`/campos/detalles/${field_id}`)
             }
             else {
-                res.send({ errorMessage: 'Hora ocupada' })
+                return Field
+                    .findById(field_id)
+                    .then(field => res.render('match/create-match', { field, errorMessage: 'Hora ocupada' }))
+                    .catch(err => next(err))
             }
         })
+        .catch(err => next(err))
 })
 
-
-router.get('/partidos/editar/:partido_id', (req, res, next) => {
-
-    const { partido_id } = req.params
-
+router.get('/partidos/detalles/:match_id', isLoggedIn, (req, res, next) => {
+    const { match_id } = req.params
 
     Match
-        .findById(partido_id)
+        .findById(match_id)
+        .populate('field')
+        .populate('assistants')
+        .then(match => res.render('match/match-details', match))
+        .catch(err => next(err))
+})
+
+router.get('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+    const { match_id } = req.params
+
+    Match
+        .findById(match_id)
         .populate('field')
         .then(match => res.render('match/edit-match', match))
         .catch(err => next(err))
-
-
 })
 
 
-router.post('/partidos/editar/:partido_id', (req, res, next) => {
-
-    const { partido_id } = req.params
+router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+    const { match_id } = req.params
     const { date } = req.body
+    const matchDate = new Date(date)
 
     Match
-        .findByIdAndUpdate(partido_id, { date })
-        .then(match => res.redirect(`/campos/detalles/${match.field}`,))
+        .findById(match_id)
+        .then(match => {
+            return Match.find({ field: match.field })
+        })
+        .then(matches => {
+            console.log(matches)
+            let isAvaliable = true
+            matches.forEach(match => {
+                if (match.date.getTime() == matchDate.getTime()) {
+                    isAvaliable = false
+                }
+            })
+            return isAvaliable
+        })
+        .then(isAvaliable => {
+            if (isAvaliable) {
+                return Match.findByIdAndUpdate(match_id, { date })
+            }
+            else {
+                return
+            }
+        })
+        .then(match => {
+            if (match) {
+                res.redirect(`/campos/detalles/${match.field}`)
+            }
+            else {
+                return Match
+                    .findById(match_id)
+                    .then(() => res.redirect(`/partidos/editar/${match_id}`))
+                    .catch(err => next(err))
+            }
+        })
         .catch(err => next(err))
-
 })
 
-router.get('/partidos/borrar/:partido_id', (req, res, next) => {
-
+router.get('/partidos/borrar/:partido_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
     const { partido_id } = req.params
 
     Match
@@ -107,7 +142,7 @@ router.post('/partidos/anadir/:match_id', (req, res, next) => {
         })
         .then(match => {
             if (match) {
-                res.redirect('/mapa')
+                res.redirect(`/partidos/detalles/${match._id}`)
             }
             else {
                 res.send({ errorMessage: 'Ya estas apuntado' }) //haz estoooooooooooo

@@ -4,7 +4,7 @@ const router = express.Router()
 const Field = require('../models/Field.model')
 const Match = require('../models/Match.model')
 
-const { isLoggedIn } = require('../middleware/route.guard')
+const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
 router.get('/mapa', isLoggedIn, (req, res, next) => {
     res.render('fields/maps')
@@ -19,18 +19,17 @@ router.get('/campos/detalles/:field_id', isLoggedIn, (req, res, next) => {
             Match.find({ field: field_id })
         ]
     )
-
-        .then(values => {
-            res.render('fields/field-detail', { field: values[0], matches: values[1] })
-        })
-        .catch(err => next(err))
+    .then(values => {
+        res.render('fields/field-details', { field: values[0], matches: values[1] })
+    })
+    .catch(err => next(err))
 })
 
-router.get('/campos/crear', isLoggedIn, (req, res, next) => {
+router.get('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
     res.render('fields/create-field')
 })
 
-router.post('/campos/crear', isLoggedIn, (req, res, next) => {
+router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
     const { name, latitude, longitude } = req.body
     const location = {
         type: 'Point',
@@ -43,7 +42,7 @@ router.post('/campos/crear', isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
+router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
@@ -52,7 +51,7 @@ router.get('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
+router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
     const { field_id } = req.params
     const { name, latitude, longitude } = req.body
     const location = {
@@ -66,7 +65,7 @@ router.post('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/campos/borrar/:field_id', isLoggedIn, (req, res, next) => {
+router.post('/campos/borrar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
@@ -74,4 +73,5 @@ router.post('/campos/borrar/:field_id', isLoggedIn, (req, res, next) => {
         .then(() => res.redirect('/mapa'))
         .catch(err => next(err))
 })
+
 module.exports = router

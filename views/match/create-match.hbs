@@ -3,19 +3,14 @@
         <div class="col-md-6">
 
 
-            <h1>crear partido en {{name}}</h1>
+            <h1>crear partido en {{field.name}}</h1>
 
             <hr>
-            <form action="/partidos/crear/{{_id}}" method="POST">
+            <form action="/partidos/crear/{{field._id}}" method="POST">
                 <div class="mb-3">
                     <label for="date" class="form-label">Fecha y hora</label>
                     <input type="date" class="form-control" id="date" name="date">
                 </div>
-
-                {{!-- <div class="mb-3">
-                    <label for="date" class="form-label">Fecha y hora</label>
-                    <input type="text" class="form-control" id="date" name="date">
-                </div> --}}
 
                 <select class="form-control" id="multiselect" name="date">
                     <option value="00:00">00:00</option>
@@ -43,9 +38,11 @@
                     <option value="22:00">22:00</option>
                     <option value="23:00">23:00</option>
                     <option value="24:00">24:00</option>
-
-
                 </select>
+
+                {{#if errorMessage}}
+                    <p>{{errorMessage}}</p>
+                {{/if}}
 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-dark">Crear</button>
