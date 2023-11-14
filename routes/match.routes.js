@@ -25,20 +25,43 @@ router.get('/partidos/crear/:campo_id', (req, res, next) => {
 router.post('/partidos/crear/:campo_id', (req, res, next) => {
     const { campo_id: field } = req.params
     const { date } = req.body
+    // const formatDate = new Date(date)
 
 
     Match
-
-        .create({ date, field })
-        .then(() => res.redirect(`/campos/detalles/${field}`))
-        .catch(err => next(err))
+        .find({ _id: field })
+        .then(matches => {
+            let isAvaliable = true
+            matches.forEach(elm => {
+                if (elm.date === date) {
+                    isAvaliable = false
+                }
+            })
+            return isAvaliable
+        })
+        .then(isAvaliable => {
+            if (isAvaliable) {
+                return Match.create({ date, field })
+            }
+            else {
+                return
+            }
+        })
+        .then(match => {
+            if (match) {
+                res.redirect(`/campos/detalles/${field}`)
+            }
+            else {
+                res.send({ errorMessage: 'Hora ocupada' })
+            }
+        })
 })
 
 
 router.get('/partidos/editar/:partido_id', (req, res, next) => {
 
     const { partido_id } = req.params
-    const { date } = req.body
+
 
     Match
         .findById(partido_id)
@@ -48,6 +71,31 @@ router.get('/partidos/editar/:partido_id', (req, res, next) => {
 
 
 })
+
+
+router.post('/partidos/editar/:partido_id', (req, res, next) => {
+
+    const { partido_id } = req.params
+    const { date } = req.body
+
+    Match
+        .findByIdAndUpdate(partido_id, { date })
+        .then(match => res.redirect(`/campos/detalles/${match.field}`,))
+        .catch(err => next(err))
+
+})
+
+router.get('/partidos/eliminar/:partido_id', (req, res, next) => {
+
+    const { partido_id } = req.params
+
+    Match
+        .findByIdAndDelete(partido_id)
+        .then(match => res.redirect(`/campos/detalles/${match.field}`))
+        .catch(err => next(err))
+})
+
+
 
 
 
@@ -76,20 +124,20 @@ router.get('/partidos/editar/:partido_id', (req, res, next) => {
 // assistants:    type: Schema.Types.ObjectId,
 //         ref: 'User'
 
-router.get('/campos/detalles/:campo_id', (req, res, next) => {
-    const { campo_id } = req.params
+// router.get('/campos/detalles/:campo_id', (req, res, next) => {
+//     const { campo_id } = req.params
 
-    Promise.all(
-        [
-            Field.findById(campo_id),
-            Match.find({ field: campo_id })
-        ]
-    )
-        .then(values => {
-            res.render('fields/field-detail', { field: values[0], matches: values[1] })
-        })
-        .catch(err => next(err))
-})
+//     Promise.all(
+//         [
+//             Field.findById(campo_id),
+//             Match.find({ field: campo_id })
+//         ]
+//     )
+//         .then(values => {
+//             res.render('fields/field-detail', { field: values[0], matches: values[1] })
+//         })
+//         .catch(err => next(err))
+// })
 
 
 
