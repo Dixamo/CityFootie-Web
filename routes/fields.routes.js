@@ -17,6 +17,7 @@ router.get('/campos/detalles/:field_id', (req, res, next) => {
             Match.find({ field: field_id })
         ]
     )
+
         .then(values => {
             res.render('fields/field-detail', { field: values[0], matches: values[1] })
         })

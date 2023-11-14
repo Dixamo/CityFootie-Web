@@ -1,8 +1,24 @@
-<p>{{field.name}}</p>
-{{#each matches}}
-<p>{{date}}</p>
-<a href="/partidos/editar/{{_id}}">editar</a>
-<a href="/partidos/eliminar/{{_id}}">eliminar</a>
-{{/each}}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1>{{field.name}}</h1>
+        </div>
+    </div>
 
-<a href="/partidos/crear/{{field._id}}">crear partido</a>
+    {{#each matches}}
+    <div class="row mt-5">
+        <div class="col-12">
+            <p>{{date}}</p>
+            <a href="/partidos/editar/{{_id}}" class="btn btn-primary">Editar</a>
+            <a href="/partidos/eliminar/{{_id}}" class="btn btn-danger">Eliminar</a>
+
+        </div>
+    </div>
+    {{/each}}
+
+    <div class="row mt-5">
+        <div class="col-12 mt-3">
+            <a href="/partidos/crear/{{field._id}}" class="btn btn-success">Crear Partido</a>
+        </div>
+    </div>
+</div>
