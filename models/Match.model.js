@@ -4,7 +4,6 @@ const matchSchema = new Schema(
   {
     date: {
       type: Date,
-      unique: true,
       require: true
     },
     field: {
@@ -22,6 +21,8 @@ const matchSchema = new Schema(
     timestamps: true
   }
 )
+
+// matchSchema.index({ date: 1 }, { unique: true })
 
 const Match = model("Match", matchSchema)
 

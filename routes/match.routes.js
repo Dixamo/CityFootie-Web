@@ -25,13 +25,36 @@ router.get('/partidos/crear/:campo_id', (req, res, next) => {
 router.post('/partidos/crear/:campo_id', (req, res, next) => {
     const { campo_id: field } = req.params
     const { date } = req.body
+    // const formatDate = new Date(date)
 
 
     Match
-
-        .create({ date, field })
-        .then(() => res.redirect(`/campos/detalles/${field}`))
-        .catch(err => next(err))
+        .find({ _id: field })
+        .then(matches => {
+            let isAvaliable = true
+            matches.forEach(elm => {
+                if (elm.date === date) {
+                    isAvaliable = false
+                }
+            })
+            return isAvaliable
+        })
+        .then(isAvaliable => {
+            if (isAvaliable) {
+                return Match.create({ date, field })
+            }
+            else {
+                return
+            }
+        })
+        .then(match => {
+            if (match) {
+                res.redirect(`/campos/detalles/${field}`)
+            }
+            else {
+                res.send({ errorMessage: 'Hora ocupada' })
+            }
+        })
 })
 
 
