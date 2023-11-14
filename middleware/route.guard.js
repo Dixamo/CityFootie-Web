@@ -16,7 +16,38 @@ const isLoggedOut = (req, res, next) => {
     }
 }
 
+
+const checkRole = (...adimetteRoles) => (req, res, next) => {
+
+    const { role } = req.session.currentUser
+
+    if (adimetteRoles.includes(role)) {
+        next()
+    } else {
+        res.redirect('/')
+    }
+}
+
+
+const checkMySession = (...isMySession) => (req, res, next) => {
+
+    const { _id } = req.params
+    const { role } = req.session.currentUser
+
+
+    if (req.session.currentUser._id === _id || isMySession.includes(role)) {
+        next()
+    } else {
+        res.redirect('/')
+    }
+}
+
+
+
+
 module.exports = {
     isLoggedIn,
-    isLoggedOut
+    isLoggedOut,
+    checkMySession,
+    checkRole
 }

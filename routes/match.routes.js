@@ -110,7 +110,7 @@ router.post('/partidos/anadir/:match_id', (req, res, next) => {
                 res.redirect('/mapa')
             }
             else {
-                res.send({ errorMessage: 'Ya estas apuntado' })
+                res.send({ errorMessage: 'Ya estas apuntado' }) //haz estoooooooooooo
             }
         })
 })
@@ -118,7 +118,7 @@ router.post('/partidos/anadir/:match_id', (req, res, next) => {
 router.post('/partidos/quitar/:match_id', (req, res, next) => {
     const { match_id } = req.params
     const user = req.session.currentUser
-    
+
     Match
         .findByIdAndUpdate(match_id, { $pull: { assistants: user._id } })
         .then(() => res.redirect('/mapa'))
