@@ -3,16 +3,17 @@ const { Schema, model } = require("mongoose")
 const matchSchema = new Schema(
   {
     date: {
-        type: Date,
-        require: true
+      type: Date,
+      unique: true,
+      require: true
     },
     field: {
-        type: Schema.Types.ObjectId,
-        ref: 'Field'
+      type: Schema.Types.ObjectId,
+      ref: 'Field'
     },
     assistants: [
       {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: 'User'
       }
     ]
