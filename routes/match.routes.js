@@ -6,11 +6,7 @@ const Field = require('../models/Field.model')
 
 
 
-
-
-
 router.get('/partidos/crear/:campo_id', (req, res, next) => {
-
     const { campo_id } = req.params
 
     Field
@@ -22,18 +18,18 @@ router.get('/partidos/crear/:campo_id', (req, res, next) => {
 
 
 
-router.post('/partidos/crear/:campo_id', (req, res, next) => {
-    const { campo_id: field } = req.params
+router.post('/partidos/crear/:field_id', (req, res, next) => {
+    const { field_id } = req.params
     const { date } = req.body
-    // const formatDate = new Date(date)
+    const matchDate = new Date(date)
 
 
     Match
-        .find({ _id: field })
+        .find({ field: field_id })
         .then(matches => {
             let isAvaliable = true
-            matches.forEach(elm => {
-                if (elm.date === date) {
+            matches.forEach(match => {
+                if (match.date.getTime() == matchDate.getTime()) {
                     isAvaliable = false
                 }
             })
@@ -41,7 +37,7 @@ router.post('/partidos/crear/:campo_id', (req, res, next) => {
         })
         .then(isAvaliable => {
             if (isAvaliable) {
-                return Match.create({ date, field })
+                return Match.create({ date, field: field_id })
             }
             else {
                 return
@@ -49,7 +45,7 @@ router.post('/partidos/crear/:campo_id', (req, res, next) => {
         })
         .then(match => {
             if (match) {
-                res.redirect(`/campos/detalles/${field}`)
+                res.redirect(`/campos/detalles/${field_id}`)
             }
             else {
                 res.send({ errorMessage: 'Hora ocupada' })
@@ -85,7 +81,7 @@ router.post('/partidos/editar/:partido_id', (req, res, next) => {
 
 })
 
-router.get('/partidos/eliminar/:partido_id', (req, res, next) => {
+router.get('/partidos/borrar/:partido_id', (req, res, next) => {
 
     const { partido_id } = req.params
 
@@ -95,7 +91,38 @@ router.get('/partidos/eliminar/:partido_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
+router.post('/partidos/anadir/:match_id', (req, res, next) => {
+    const { match_id } = req.params
+    const user = req.session.currentUser
 
+    Match
+        .findById(match_id)
+        .then(match => {
+            if (match.assistants.includes(user._id)) {
+                return
+            }
+            else {
+                return Match.findByIdAndUpdate(match_id, { $push: { assistants: user._id } })
+            }
+        })
+        .then(match => {
+            if (match) {
+                res.redirect('/mapa')
+            }
+            else {
+                res.send({ errorMessage: 'Ya estas apuntado' })
+            }
+        })
+})
+
+router.post('/partidos/quitar/:match_id', (req, res, next) => {
+    const { match_id } = req.params
+    const user = req.session.currentUser
+    
+    Match
+        .findByIdAndUpdate(match_id, { $pull: { assistants: user._id } })
+        .then(() => res.redirect('/mapa'))
+})
 
 
 

@@ -50,39 +50,4 @@ router.post('/usuarios/borrar/:user_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-
-//join player
-router.post('/partidos/anadir/:match_id', (req, res, next) => {
-    const { match_id } = req.params
-    const user = req.session.currentUser
-
-    Match
-        .findById(match_id)
-        .then(match => {
-            if (match.assistants.includes(user._id)) {
-                return
-            }
-            else {
-                return Match.findByIdAndUpdate(match_id, { $push: { assistants: user._id } })
-            }
-        })
-        .then(match => {
-            if (match) {
-                res.redirect('/mapa')
-            }
-            else {
-                res.send({ errorMessage: 'Ya estas apuntado' })
-            }
-        })
-})
-
-router.post('/partidos/quitar/:match_id', (req, res, next) => {
-    const { match_id } = req.params
-    const user = req.session.currentUser
-    
-    Match
-        .findByIdAndUpdate(match_id, { $pull: { assistants: user._id } })
-        .then(() => res.redirect('/mapa'))
-})
-
 module.exports = router
