@@ -3,14 +3,13 @@ const User = require('../models/User.model')
 const Match = require('../models/Match.model')
 const router = express.Router()
 
-const photoClaudinary = require('../middleware/photo.perfil.guard')
+const { isLoggedIn } = require('../middleware/route.guard')
 
-
-router.get('/usuarios/perfil', (req, res, next) => {
+router.get('/usuarios/perfil', isLoggedIn, (req, res, next) => {
     res.render('user/user-details', { user: req.session.currentUser })
 })
 
-router.get('/usuarios/detalles/:user_id', (req, res, next) => {
+router.get('/usuarios/detalles/:user_id', isLoggedIn, (req, res, next) => {
     const { user_id } = req.params
 
     // Promise.all(
@@ -25,7 +24,7 @@ router.get('/usuarios/detalles/:user_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/usuarios/editar/:user_id', photoClaudinary.single('cover'), (req, res, next) => {
+router.get('/usuarios/editar/:user_id', isLoggedIn, (req, res, next) => {
     const { user_id } = req.params
 
     User
@@ -34,7 +33,7 @@ router.get('/usuarios/editar/:user_id', photoClaudinary.single('cover'), (req, r
         .catch(err => next(err))
 })
 
-router.post('/usuarios/editar/:user_id', (req, res, next) => {
+router.post('/usuarios/editar/:user_id', isLoggedIn, (req, res, next) => {
     const { user_id } = req.params
     const { username, email, plainPassword } = req.body
 
@@ -44,7 +43,7 @@ router.post('/usuarios/editar/:user_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/usuarios/borrar/:user_id', (req, res, next) => {
+router.post('/usuarios/borrar/:user_id', isLoggedIn, (req, res, next) => {
     const { user_id } = req.params
 
     User

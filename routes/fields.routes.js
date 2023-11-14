@@ -4,11 +4,13 @@ const router = express.Router()
 const Field = require('../models/Field.model')
 const Match = require('../models/Match.model')
 
-router.get('/mapa', (req, res, next) => {
+const { isLoggedIn } = require('../middleware/route.guard')
+
+router.get('/mapa', isLoggedIn, (req, res, next) => {
     res.render('fields/maps')
 })
 
-router.get('/campos/detalles/:field_id', (req, res, next) => {
+router.get('/campos/detalles/:field_id', isLoggedIn, (req, res, next) => {
     const { field_id } = req.params
 
     Promise.all(
@@ -24,11 +26,11 @@ router.get('/campos/detalles/:field_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/campos/crear', (req, res, next) => {
+router.get('/campos/crear', isLoggedIn, (req, res, next) => {
     res.render('fields/create-field')
 })
 
-router.post('/campos/crear', (req, res, next) => {
+router.post('/campos/crear', isLoggedIn, (req, res, next) => {
     const { name, latitude, longitude } = req.body
     const location = {
         type: 'Point',
@@ -41,7 +43,7 @@ router.post('/campos/crear', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/campos/editar/:field_id', (req, res, next) => {
+router.get('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
     const { field_id } = req.params
 
     Field
@@ -50,7 +52,7 @@ router.get('/campos/editar/:field_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/campos/editar/:field_id', (req, res, next) => {
+router.post('/campos/editar/:field_id', isLoggedIn, (req, res, next) => {
     const { field_id } = req.params
     const { name, latitude, longitude } = req.body
     const location = {
@@ -64,7 +66,7 @@ router.post('/campos/editar/:field_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/campos/borrar/:field_id', (req, res, next) => {
+router.post('/campos/borrar/:field_id', isLoggedIn, (req, res, next) => {
     const { field_id } = req.params
 
     Field
