@@ -6,9 +6,9 @@ const Field = require('../models/Field.model')
 
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
-const { formatDate } = require('../utils/index')
+const { formatDate } = require('../utils/date-utils')
 
-router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
@@ -17,14 +17,19 @@ router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', '
         .catch(err => next(err))
 })
 
-router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
-    const { field_id } = req.params
+router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
+    const { field_id: field} = req.params
     const { date } = req.body
     const matchDate = new Date(date)
 
     Match
-        .find({ field: field_id })
+        .find({ field })
         .then(matches => {
+
+            // TODO: RESOLVER MEDIANTE SOME
+            // TODO: MOVER A UTILS
+            // let isAvaliable = checkMatchAvailability(matchDate, matches)
+            
             let isAvaliable = true
             matches.forEach(match => {
                 if (match.date.getTime() == matchDate.getTime()) {
@@ -35,7 +40,7 @@ router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 
         })
         .then(isAvaliable => {
             if (isAvaliable) {
-                return Match.create({ date, field: field_id })
+                return Match.create({ date, field })
             }
             else {
                 return
@@ -43,7 +48,7 @@ router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 
         })
         .then(match => {
             if (match) {
-                res.redirect(`/campos/detalles/${field_id}`)
+                res.redirect(`/campos/detalles/${field}`)
             }
             else {
                 return Field
@@ -60,13 +65,12 @@ router.get('/partidos/detalles/:match_id', isLoggedIn, (req, res, next) => {
 
     Match
         .findById(match_id)
-        .populate('field')
-        .populate('assistants')
+        .populate('field assistants')
         .then(match => res.render('match/match-details', { match, date: formatDate(new Date()) }))
         .catch(err => next(err))
 })
 
-router.get('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+router.get('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
     const { match_id } = req.params
 
     Match
@@ -76,8 +80,7 @@ router.get('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 
         .catch(err => next(err))
 })
 
-
-router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
+router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
     const { match_id } = req.params
     const { date } = req.body
     const matchDate = new Date(date)
@@ -88,7 +91,7 @@ router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN',
             return Match.find({ field: match.field })
         })
         .then(matches => {
-            console.log(matches)
+            // TODO: RESOLVER CON SOME
             let isAvaliable = true
             matches.forEach(match => {
                 if (match.date.getTime() == matchDate.getTime()) {
@@ -119,22 +122,23 @@ router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN',
         .catch(err => next(err))
 })
 
-router.get('/partidos/borrar/:partido_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
-    const { partido_id } = req.params
+router.get('/partidos/borrar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
+    const { match_id } = req.params
 
     Match
-        .findByIdAndDelete(partido_id)
+        .findByIdAndDelete(match_id)
         .then(match => res.redirect(`/campos/detalles/${match.field}`))
         .catch(err => next(err))
 })
 
 router.post('/partidos/anadir/:match_id', (req, res, next) => {
     const { match_id } = req.params
-    const user = req.session.currentUser
+    const {currentUser: user} = req.session
 
     Match
         .findById(match_id)
         .then(match => {
+            //TODO: includes en un utils
             if (match.assistants.includes(user._id)) {
                 return
             }
@@ -150,15 +154,17 @@ router.post('/partidos/anadir/:match_id', (req, res, next) => {
                 res.send({ errorMessage: 'Ya estas apuntado' }) //haz estoooooooooooo
             }
         })
+        .catch(err => next(err))
 })
 
 router.post('/partidos/quitar/:match_id', (req, res, next) => {
     const { match_id } = req.params
-    const user = req.session.currentUser
+    const {currentUser: user} = req.session
 
     Match
         .findByIdAndUpdate(match_id, { $pull: { assistants: user._id } })
         .then(() => res.redirect('/mapa'))
+        .catch(err => next(err))      
 })
 
 
@@ -202,10 +208,6 @@ router.post('/partidos/quitar/:match_id', (req, res, next) => {
 //         })
 //         .catch(err => next(err))
 // })
-
-
-
-
 
 
 module.exports = router

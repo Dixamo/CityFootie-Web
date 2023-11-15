@@ -3,7 +3,6 @@ const router = express.Router()
 
 const Fields = require('../models/Field.model')
 
-
 router.get('/fields', (req, res, next) => {
 
     Fields

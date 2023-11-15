@@ -19,17 +19,17 @@ router.get('/campos/detalles/:field_id', isLoggedIn, (req, res, next) => {
             Match.find({ field: field_id })
         ]
     )
-    .then(values => {
-        res.render('fields/field-details', { field: values[0], matches: values[1] })
+    .then(([field, matches]) => {
+        res.render('fields/field-details', { field, matches })
     })
     .catch(err => next(err))
 })
 
-router.get('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
+router.get('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
     res.render('fields/create-field')
 })
 
-router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
+router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
     const { name, latitude, longitude } = req.body
     const location = {
         type: 'Point',
@@ -42,7 +42,7 @@ router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, r
         .catch(err => next(err))
 })
 
-router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
+router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
@@ -51,7 +51,7 @@ router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'
         .catch(err => next(err))
 })
 
-router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
+router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
     const { field_id } = req.params
     const { name, latitude, longitude } = req.body
     const location = {
@@ -65,7 +65,7 @@ router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER
         .catch(err => next(err))
 })
 
-router.post('/campos/borrar/:field_id', isLoggedIn, checkRoles(false, 'ORGANICER'), (req, res, next) => {
+router.post('/campos/borrar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
