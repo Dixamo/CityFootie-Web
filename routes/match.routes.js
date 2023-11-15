@@ -6,12 +6,14 @@ const Field = require('../models/Field.model')
 
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
+const { formatDate } = require('../utils/index')
+
 router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANICER'), (req, res, next) => {
     const { field_id } = req.params
 
     Field
         .findById(field_id)
-        .then(field => res.render('match/create-match', { field }))
+        .then(field => res.render('match/create-match', { field, date: formatDate(new Date()) }))
         .catch(err => next(err))
 })
 
@@ -46,7 +48,7 @@ router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 
             else {
                 return Field
                     .findById(field_id)
-                    .then(field => res.render('match/create-match', { field, errorMessage: 'Hora ocupada' }))
+                    .then(field => res.render('match/create-match', { field, date: formatDate(new Date()), errorMessage: 'Hora ocupada' }))
                     .catch(err => next(err))
             }
         })
@@ -60,7 +62,7 @@ router.get('/partidos/detalles/:match_id', isLoggedIn, (req, res, next) => {
         .findById(match_id)
         .populate('field')
         .populate('assistants')
-        .then(match => res.render('match/match-details', match))
+        .then(match => res.render('match/match-details', { match, date: formatDate(new Date()) }))
         .catch(err => next(err))
 })
 
@@ -70,7 +72,7 @@ router.get('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN', 
     Match
         .findById(match_id)
         .populate('field')
-        .then(match => res.render('match/edit-match', match))
+        .then(match => res.render('match/edit-match', { match, matchDate: formatDate(match.date), todayDate: formatDate(new Date()) }))
         .catch(err => next(err))
 })
 

@@ -9,7 +9,7 @@
             <form action="/partidos/crear/{{field._id}}" method="POST">
                 <div class="mb-3">
                     <label for="date" class="form-label">Fecha y hora</label>
-                    <input type="date" class="form-control" id="date" name="date">
+                    <input type="date" class="form-control" id="date" name="date" value="{{date}}" min="{{date}}">
                 </div>
 
                 <select class="form-control" id="multiselect" name="date">
