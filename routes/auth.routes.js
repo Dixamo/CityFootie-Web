@@ -48,7 +48,7 @@ router.post('/iniciar-sesion', isLoggedOut, (req, res, next) => {
             }
 
             req.session.currentUser = foundUser
-            res.redirect('/')
+            res.redirect('/mapa')
         })
         .catch(err => next(err))
 })

@@ -20,7 +20,7 @@ router.get('/usuarios/detalles/:user_id', isLoggedIn, (req, res, next) => {
     // )
     User
         .findById(user_id)
-        .then(user => res.render('user/user-details', { user }))
+        .then(user => res.render('user/user-details', { user, owner: req.session.currentUser._id === user_id }))
         .catch(err => next(err))
 })
 

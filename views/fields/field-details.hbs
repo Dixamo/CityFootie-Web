@@ -12,14 +12,6 @@
             <a href="/partidos/detalles/{{_id}}" class="btn btn-primary">Detalles</a>
             <a href="/partidos/editar/{{_id}}" class="btn btn-primary">Editar</a>
             <a href="/partidos/borrar/{{_id}}" class="btn btn-danger">Eliminar</a>
-            {{#if ../field}}
-            <form action="/partidos/anadir/{{_id}}" method="post">
-                <div>
-                    <button type="submit" class="btn btn-dark">Añadir jugador</button>
-                </div>
-            </form>
-            {{/if}}
-
         </div>
     </div>
     {{/each}}

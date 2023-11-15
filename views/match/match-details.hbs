@@ -1,5 +1,15 @@
 <p>{{field.name}}</p>
 <p>{{date}}</p>
+<form action="/partidos/anadir/{{_id}}" method="post">
+    <div>
+        <button type="submit" class="btn btn-dark">Unirte</button>
+    </div>
+</form>
+<form action="/partidos/quitar/{{_id}}" method="post">
+    <div>
+        <button type="submit" class="btn btn-dark">Salirte</button>
+    </div>
+</form>
 {{#each assistants}}
     <p>{{username}}</p>
     <a href="/usuarios/detalles/{{_id}}">Ver Perfil</a>

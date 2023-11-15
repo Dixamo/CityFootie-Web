@@ -3,3 +3,7 @@
 <p>{{user.username}}</p>
 <p>{{user.email}}</p>
 <p>{{user.role}}</p>
+
+{{#if owner}}
+    <a href="/usuarios/editar/{{user._id}}">Editar</a>
+{{/if}}
