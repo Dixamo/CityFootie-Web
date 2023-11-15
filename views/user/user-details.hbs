@@ -1,9 +1,25 @@
-<img src="{{user.cover}}" alt="">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-5">
+            <div class="row justify-content-between">
+                <h1 class="col-md-6">{{user.username}}</h1>
+                {{#if owner}}
+                    <div class="col-md-2">
+                        <a href="/usuarios/editar/{{user._id}}" class="btn btn-outline-success mt-2">Editar</a>
+                    </div>
+                {{/if}}
+            </div>
+            <hr>
+            <img src="{{user.cover}}" alt="">
 
-<p>{{user.username}}</p>
-<p>{{user.email}}</p>
-<p>{{user.role}}</p>
-
-{{#if owner}}
-    <a href="/usuarios/editar/{{user._id}}">Editar</a>
-{{/if}}
+            <div class="row justify-content-center">
+                <div class="col-md-6 mt-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">Email: {{user.email}}</li>
+                        <li class="list-group-item">Rol: {{user.role}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

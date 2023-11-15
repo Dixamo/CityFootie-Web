@@ -1,8 +1,7 @@
-<h1>Editar campo</h1>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1>Acceso</h1>
+        <div class="col-md-6 mt-5">
+            <h1>Editar {{name}}</h1>
             <hr>
             <form action="/campos/editar/{{_id}}" method="POST">
                 <div class="mb-3">
@@ -22,8 +21,8 @@
                 <p id="error">{{errorMessage}}</p>
                 {{/if}}
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-dark">Crear</button>
+                <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-outline-success">Editar</button>
                 </div>
             </form>
         </div>

@@ -140,7 +140,7 @@ router.post('/partidos/quitar/:match_id', (req, res, next) => {
 
     Match
         .findByIdAndUpdate(match_id, { $pull: { assistants: user._id } })
-        .then(() => res.redirect('/mapa'))
+        .then(() => res.redirect(`/partidos/detalles/${match_id}`))
         .catch(err => next(err))      
 })
 

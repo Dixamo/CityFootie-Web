@@ -1,16 +1,31 @@
-<p>{{match.field.name}}</p>
-<p>{{date}}</p>
-<form action="/partidos/anadir/{{match._id}}" method="post">
-    <div>
-        <button type="submit" class="btn btn-dark">Unirte</button>
+<div class="container mt-5">
+    <div class="row justify-content-between">
+        <h1 class="col-md-6">{{match.field.name}}, {{date}}</h1>
+        <div class="col-md-2 row justify-content-around">
+            <div class="col-md-6">
+                <form action="/partidos/anadir/{{match._id}}" method="post">
+                    <div>
+                        <button type="submit" class="btn btn-outline-success mt-2">Unirte</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form action="/partidos/quitar/{{match._id}}" method="post">
+                    <div>
+                        <button type="submit" class="btn btn-outline-danger mt-2">Salirte</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-<form action="/partidos/quitar/{{match._id}}" method="post">
-    <div>
-        <button type="submit" class="btn btn-dark">Salirte</button>
-    </div>
-</form>
-{{#each match.assistants}}
-    <p>{{username}}</p>
-    <a href="/usuarios/detalles/{{_id}}">Ver Perfil</a>
-{{/each}}
+    <hr>
+    
+    {{#each match.assistants}}
+        <div class="card col-6" style="width: 19rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{username}}</h5>
+                <a href="/usuarios/detalles/{{_id}}" class="btn btn-outline-success">Ver Perfil</a>
+            </div>
+        </div>
+    {{/each}}
+</div>

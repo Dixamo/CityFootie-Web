@@ -1,12 +1,9 @@
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-md-6">
-
             {{#with match.field}}
-            <h1>edita partido en el campo:{{name}}</h1>
+            <h1>Editar partido en: {{name}}</h1>
             {{/with}}
-
-
             <hr>
             <form action="/partidos/editar/{{match._id}}" method="POST">
                 <div class="mb-3">
@@ -42,8 +39,8 @@
                     <option value="24:00">24:00</option>
                 </select>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-dark">editar</button>
+                <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-outline-success">Editar</button>
                 </div>
             </form>
         </div>

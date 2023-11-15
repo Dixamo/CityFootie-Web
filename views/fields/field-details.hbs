@@ -1,24 +1,28 @@
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <h1>{{field.name}}</h1>
+    <div class="row justify-content-between">
+        <h1 class="col-md-6">{{field.name}}</h1>
+        <div class="col-md-3 row justify-content-around">
+            <div class="col-md-6">
+                <a href="/campos/editar/{{field._id}}" class="btn btn-outline-success mt-2">Editar Campo</a>
+            </div>
+            <div class="col-md-6">
+                <a href="/partidos/crear/{{field._id}}" class="btn btn-success mt-2">Crear Partido</a>
+            </div>
         </div>
     </div>
+    <hr>
 
-    {{#each matches}}
-    <div class="row mt-5">
-        <div class="col-12">
-            <p>{{date}}</p>
-            <a href="/partidos/detalles/{{_id}}" class="btn btn-primary">Detalles</a>
-            <a href="/partidos/editar/{{_id}}" class="btn btn-primary">Editar</a>
-            <a href="/partidos/borrar/{{_id}}" class="btn btn-danger">Eliminar</a>
+    <div class="row justify-content-between mt-5">
+        
+        {{#each matches}}
+        <div class="card col-6" style="width: 19rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{date}}</h5>
+                <a href="/partidos/detalles/{{_id}}" class="btn btn-success">Detalles</a>
+                <a href="/partidos/editar/{{_id}}" class="btn btn-outline-success">Editar</a>
+                <a href="/partidos/borrar/{{_id}}" class="btn btn-outline-danger">Eliminar</a>
+            </div>
         </div>
-    </div>
-    {{/each}}
-
-    <div class="row mt-5">
-        <div class="col-12 mt-3">
-            <a href="/partidos/crear/{{field._id}}" class="btn btn-success">Crear Partido</a>
-        </div>
+        {{/each}}
     </div>
 </div>
