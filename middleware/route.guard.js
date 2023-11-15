@@ -16,7 +16,6 @@ const isLoggedOut = (req, res, next) => {
     }
 }
 
-
 const checkRoles = (allowOwner, ...admittedRoles) => (req, res, next) => {
     const { _id } = req.params
     const { role } = req.session.currentUser
@@ -38,9 +37,6 @@ const checkRoles = (allowOwner, ...admittedRoles) => (req, res, next) => {
         }
     }
 }
-
-
-
 
 module.exports = {
     isLoggedIn,

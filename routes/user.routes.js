@@ -1,3 +1,5 @@
+// TODO: RENOMBRAR ORGANIZER
+
 const express = require('express')
 const User = require('../models/User.model')
 const Match = require('../models/Match.model')
@@ -24,7 +26,7 @@ router.get('/usuarios/detalles/:user_id', isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANICER'), (req, res, next) => {
+router.get('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANIZER'), (req, res, next) => {
     const { user_id } = req.params
 
     User
@@ -33,7 +35,7 @@ router.get('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANICER'
         .catch(err => next(err))
 })
 
-router.post('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANICER'), (req, res, next) => {
+router.post('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANIZER'), (req, res, next) => {
     const { user_id } = req.params
     const { username, email } = req.body
 
@@ -43,7 +45,7 @@ router.post('/usuarios/editar/:user_id', isLoggedIn, checkRoles(true, 'ORGANICER
         .catch(err => next(err))
 })
 
-router.post('/usuarios/borrar/:user_id', isLoggedIn, checkRoles(true, 'ORGANICER'), (req, res, next) => {
+router.post('/usuarios/borrar/:user_id', isLoggedIn, checkRoles(true, 'ORGANIZER'), (req, res, next) => {
     const { user_id } = req.params
 
     User

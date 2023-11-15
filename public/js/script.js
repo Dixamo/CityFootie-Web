@@ -21,12 +21,12 @@ function renderMap() {
 
 function getFieldFromApi() {
 
+  // TODO: MOVER A SERVICIOS
   axios
     .get('/api/fields')
     .then(response => printFieldMarkers(response.data))
     .catch(err => console.log(err))
 }
-
 
 function printFieldMarkers(fields) {
   fields.forEach(elm => {
