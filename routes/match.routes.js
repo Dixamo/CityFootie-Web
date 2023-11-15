@@ -7,6 +7,7 @@ const Field = require('../models/Field.model')
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
 const { formatDate } = require('../utils/date-utils')
+const { checkMatchAvailability, checkPlayerAssistence } = require('../utils/match-utils')
 
 router.get('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 'ORGANIZER'), (req, res, next) => {
     const { field_id } = req.params
@@ -24,21 +25,9 @@ router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 
 
     Match
         .find({ field })
-        .then(matches => {
-
-            // TODO: RESOLVER MEDIANTE SOME
-            // TODO: MOVER A UTILS
-            // let isAvaliable = checkMatchAvailability(matchDate, matches)
-            
-            let isAvaliable = true
-            matches.forEach(match => {
-                if (match.date.getTime() == matchDate.getTime()) {
-                    isAvaliable = false
-                }
-            })
-            return isAvaliable
-        })
+        .then(matches => checkMatchAvailability(matches, matchDate))
         .then(isAvaliable => {
+            console.log(isAvaliable)
             if (isAvaliable) {
                 return Match.create({ date, field })
             }
@@ -52,7 +41,7 @@ router.post('/partidos/crear/:field_id', isLoggedIn, checkRoles(false, 'ADMIN', 
             }
             else {
                 return Field
-                    .findById(field_id)
+                    .findById(field)
                     .then(field => res.render('match/create-match', { field, date: formatDate(new Date()), errorMessage: 'Hora ocupada' }))
                     .catch(err => next(err))
             }
@@ -87,19 +76,8 @@ router.post('/partidos/editar/:match_id', isLoggedIn, checkRoles(false, 'ADMIN',
 
     Match
         .findById(match_id)
-        .then(match => {
-            return Match.find({ field: match.field })
-        })
-        .then(matches => {
-            // TODO: RESOLVER CON SOME
-            let isAvaliable = true
-            matches.forEach(match => {
-                if (match.date.getTime() == matchDate.getTime()) {
-                    isAvaliable = false
-                }
-            })
-            return isAvaliable
-        })
+        .then(match => Match.find({ field: match.field }))
+        .then(matches => checkMatchAvailability(matches, matchDate))
         .then(isAvaliable => {
             if (isAvaliable) {
                 return Match.findByIdAndUpdate(match_id, { date })
@@ -138,8 +116,7 @@ router.post('/partidos/anadir/:match_id', (req, res, next) => {
     Match
         .findById(match_id)
         .then(match => {
-            //TODO: includes en un utils
-            if (match.assistants.includes(user._id)) {
+            if (checkPlayerAssistence(match, user._id)) {
                 return
             }
             else {

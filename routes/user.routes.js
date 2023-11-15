@@ -1,5 +1,3 @@
-// TODO: RENOMBRAR ORGANIZER
-
 const express = require('express')
 const User = require('../models/User.model')
 const Match = require('../models/Match.model')

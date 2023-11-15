@@ -1,16 +1,16 @@
-<p>{{field.name}}</p>
+<p>{{match.field.name}}</p>
 <p>{{date}}</p>
-<form action="/partidos/anadir/{{_id}}" method="post">
+<form action="/partidos/anadir/{{match._id}}" method="post">
     <div>
         <button type="submit" class="btn btn-dark">Unirte</button>
     </div>
 </form>
-<form action="/partidos/quitar/{{_id}}" method="post">
+<form action="/partidos/quitar/{{match._id}}" method="post">
     <div>
         <button type="submit" class="btn btn-dark">Salirte</button>
     </div>
 </form>
-{{#each assistants}}
+{{#each match.assistants}}
     <p>{{username}}</p>
     <a href="/usuarios/detalles/{{_id}}">Ver Perfil</a>
 {{/each}}

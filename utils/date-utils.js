@@ -9,8 +9,6 @@ const formatDate = date => {
   return [year, month, day].join('-')
 }
 
-
-
 module.exports = {
   formatDate
 }
