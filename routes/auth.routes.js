@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User.model')
 const saltRounds = 10
 
+
 const photoClaudinary = require('../middleware/photo.perfil.guard')
 
 const { isLoggedOut } = require('../middleware/route.guard')
@@ -15,8 +16,14 @@ router.get('/registrarse', isLoggedOut, (req, res, next) => {
 
 router.post('/registrarse', isLoggedOut, photoClaudinary.single('cover'), (req, res, next) => {
 
-    const { path: cover } = req.file
+    const { path: cover } = req.file ? req.file : '../public/images/imgpre.png'
     const { username, email, plainPassword } = req.body
+
+    console.log(req.file.path)
+    // req.file
+    // if (path === undefined) {
+    //     return cover = '../public/images/imgpre.png'
+    // }
 
     bcrypt
         .genSalt(saltRounds)
