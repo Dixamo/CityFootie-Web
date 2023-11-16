@@ -3,10 +3,14 @@
         <h1 class="col-md-6">{{field.name}}</h1>
         <div class="col-md-3 row justify-content-around">
             <div class="col-md-6">
-                <a href="/campos/editar/{{field._id}}" class="btn btn-outline-success mt-2">Editar Campo</a>
+                {{#if permissions}}
+                    <a href="/campos/editar/{{field._id}}" class="btn btn-outline-success mt-2">Editar Campo</a>
+                {{/if}}
             </div>
             <div class="col-md-6">
-                <a href="/partidos/crear/{{field._id}}" class="btn btn-success mt-2">Crear Partido</a>
+                {{#if permissions}}
+                    <a href="/partidos/crear/{{field._id}}" class="btn btn-success mt-2">Crear Partido</a>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -19,8 +23,10 @@
             <div class="card-body">
                 <h5 class="card-title">{{date}}</h5>
                 <a href="/partidos/detalles/{{_id}}" class="btn btn-success">Detalles</a>
-                <a href="/partidos/editar/{{_id}}" class="btn btn-outline-success">Editar</a>
-                <a href="/partidos/borrar/{{_id}}" class="btn btn-outline-danger">Eliminar</a>
+                {{#if permissions}}
+                    <a href="/partidos/editar/{{_id}}" class="btn btn-outline-success">Editar</a>
+                    <a href="/partidos/borrar/{{_id}}" class="btn btn-outline-danger">Eliminar</a>
+                {{/if}}
             </div>
         </div>
         {{/each}}

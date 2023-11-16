@@ -2,7 +2,9 @@
     <div class="row justify-content-between">
         <h1 class="col-md-6">CAMPOS DE FUTBOL</h1>
         <div class="col-md-2">
-            <a href="/campos/crear" class="btn btn-success mt-2">Crear Campo</a>
+            {{#if organizer}}
+                <a href="/campos/crear" class="btn btn-success mt-2">Crear Campo</a>
+            {{/if}}
         </div>
     </div>
     <hr>
