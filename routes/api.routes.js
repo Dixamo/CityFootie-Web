@@ -1,14 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const { getFieldsFromApi } = require('../controllers/api.contollers')
 
-const Fields = require('../models/Field.model')
 
-router.get('/fields', (req, res, next) => {
+router.get('/fields', getFieldsFromApi)
 
-    Fields
-        .find()
-        .then(fields => res.json(fields))
-        .catch(err => res.status(500).json({ message: 'Server issue D:', errorDetails: err }))
-})
 
 module.exports = router

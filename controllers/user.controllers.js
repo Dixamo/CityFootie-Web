@@ -50,11 +50,20 @@ const deleteUser = (req, res, next) => {
         .catch(err => next(err))
 }
 
+const userList = (req, res, next) => {
+
+    User
+        .find()
+        .then(user => res.render('user/list', { user }))
+        .catch(err => next(err))
+}
+
 
 module.exports = {
     renderUserProfile,
     renderUserDetails,
     renderEditUser,
     postEditUser,
-    deleteUser
+    deleteUser,
+    userList
 }

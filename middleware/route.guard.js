@@ -17,11 +17,11 @@ const isLoggedOut = (req, res, next) => {
 }
 
 const checkRoles = (allowOwner, ...admittedRoles) => (req, res, next) => {
-    const { _id } = req.params
+    const { user_id } = req.params
     const { role } = req.session.currentUser
 
     if (allowOwner) {
-        if (_id === req.session.currentUser._id || admittedRoles.includes(role)) {
+        if (user_id === req.session.currentUser._id || admittedRoles.includes(role)) {
             next()
         }
         else {
@@ -38,8 +38,16 @@ const checkRoles = (allowOwner, ...admittedRoles) => (req, res, next) => {
     }
 }
 
+const loggedUser = (req, res, next) => {
+    const response = {}
+    response.logged = req.session && req.session.currentUser
+    res.locals.response = response
+    next()
+}
+
 module.exports = {
     isLoggedIn,
     isLoggedOut,
-    checkRoles
+    checkRoles,
+    loggedUser
 }

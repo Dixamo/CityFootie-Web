@@ -1,77 +1,32 @@
 const express = require('express')
 const router = express.Router()
 
-const Field = require('../models/Field.model')
-const Match = require('../models/Match.model')
-
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
-router.get('/mapa', isLoggedIn, (req, res, next) => {
-    res.render('fields/maps')
-})
+const {
+    renderMap,
+    renderDetailField,
+    renderCreateField,
+    postCreateField,
+    renderEditField,
+    postEditField,
+    deleteField
+} = require('../controllers/fields.controllers')
 
-router.get('/campos/detalles/:field_id', isLoggedIn, (req, res, next) => {
-    const { field_id } = req.params
 
-    Promise.all(
-        [
-            Field.findById(field_id),
-            Match.find({ field: field_id })
-        ]
-    )
-    .then(([field, matches]) => {
-        res.render('fields/field-details', { field, matches })
-    })
-    .catch(err => next(err))
-})
+router.get('/mapa', isLoggedIn, renderMap)
 
-router.get('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
-    res.render('fields/create-field')
-})
+router.get('/campos/detalles/:field_id', isLoggedIn, renderDetailField)
 
-router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
-    const { name, latitude, longitude } = req.body
-    const location = {
-        type: 'Point',
-        coordinates: [latitude, longitude]
-    }
+router.get('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), renderCreateField)
 
-    Field
-        .create({ name, location })
-        .then(() => res.redirect('/mapa'))
-        .catch(err => next(err))
-})
+router.post('/campos/crear', isLoggedIn, checkRoles(false, 'ORGANIZER'), postCreateField)
 
-router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
-    const { field_id } = req.params
+router.get('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), renderEditField)
 
-    Field
-        .findById(field_id)
-        .then(field => res.render('fields/edit-field', field))
-        .catch(err => next(err))
-})
+router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), postEditField)
 
-router.post('/campos/editar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
-    const { field_id } = req.params
-    const { name, latitude, longitude } = req.body
-    const location = {
-        type: 'Point',
-        coordinates: [latitude, longitude]
-    }
+router.post('/campos/borrar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), deleteField)
 
-    Field
-        .findByIdAndUpdate(field_id, { name, location })
-        .then(field => res.redirect('/mapa'))
-        .catch(err => next(err))
-})
-
-router.post('/campos/borrar/:field_id', isLoggedIn, checkRoles(false, 'ORGANIZER'), (req, res, next) => {
-    const { field_id } = req.params
-
-    Field
-        .findByIdAndDelete(field_id)
-        .then(() => res.redirect('/mapa'))
-        .catch(err => next(err))
-})
 
 module.exports = router
