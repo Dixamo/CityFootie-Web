@@ -6,7 +6,7 @@ const router = express.Router()
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
 
 router.get('/usuarios/perfil', isLoggedIn, (req, res, next) => {
-    res.render('user/user-details', { user: req.session.currentUser })
+    res.render('user/user-details', { user: req.session.currentUser, owner: true })
 })
 
 router.get('/usuarios/detalles/:user_id', isLoggedIn, (req, res, next) => {
