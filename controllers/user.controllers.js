@@ -10,7 +10,8 @@ const renderUserProfile = (req, res, next) => {
                 user: req.session.currentUser,
                 matches,
                 owner: true,
-                organizer: req.session.currentUser.role === 'ORGANIZER'
+                organizer: req.session.currentUser.role === 'ORGANIZER',
+                permissions: req.session.currentUser.role === 'ADMIN' || req.session.currentUser.role === 'ORGANIZER'
             })
         })
 }
@@ -29,7 +30,8 @@ const renderUserDetails = (req, res, next) => {
             user,
             matches,
             owner: req.session.currentUser._id === user_id,
-            organizer: req.session.currentUser.role === 'ORGANIZER'
+            organizer: req.session.currentUser.role === 'ORGANIZER',
+            permissions: req.session.currentUser.role === 'ADMIN' || req.session.currentUser.role === 'ORGANIZER'
         })
     })
     .catch(err => next(err))

@@ -3,7 +3,7 @@ const Match = require('../models/Match.model')
 
 
 const renderMap = (req, res, next) => {
-    res.render('fields/maps')
+    res.render('fields/maps', { organizer: req.session.currentUser.role === 'ORGANIZER' })
 }
 
 const renderDetailField = (req, res, next) => {
@@ -15,7 +15,7 @@ const renderDetailField = (req, res, next) => {
             Match.find({ field: field_id })
         ]
     )
-        .then(([field, matches]) => res.render('fields/field-details', { field, matches }))
+        .then(([field, matches]) => res.render('fields/field-details', { field, matches, permissions: req.session.currentUser.role === 'ADMIN' || req.session.currentUser.role === 'ORGANIZER' }))
         .catch(err => next(err))
 }
 
