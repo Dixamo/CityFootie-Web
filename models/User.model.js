@@ -5,12 +5,11 @@ const userSchema = new Schema(
     username: {
       type: String,
       trim: true,
-      required: false,
-      unique: true
+      required: [true, 'El nombre es necesario']
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'El correo es necesario'],
       unique: true,
       lowercase: true,
       trim: true
@@ -21,7 +20,7 @@ const userSchema = new Schema(
 
     password: {
       type: String,
-      required: true
+      required: [true, 'La contraseña es necesaria']
     },
     role: {
       type: String,

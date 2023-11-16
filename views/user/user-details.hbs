@@ -5,7 +5,7 @@
                 <h1 class="col-md-6">{{user.username}}</h1>
                 {{#if owner}}
                     <div class="col-md-2">
-                        <a href="/usuarios/editar/{{user._id}}" class="btn btn-outline-success mt-2">Editar</a>
+                        <a href="/usuarios/editar/{{user._id}}" class="btn btn-outline-success mt-1">Editar</a>
                     </div>
                 {{/if}}
             </div>
@@ -20,6 +20,13 @@
                     </ul>
                 </div>
             </div>
+            {{#if organizer}}
+                <div class="row justify-content-end">
+                    <div class="col-md-2 mt-5">
+                        <a href="/usuarios/borrar/{{user._id}}" class="btn btn-outline-danger mt-1">Eliminar</a>
+                    </div>
+                </div>
+            {{/if}}
         </div>
     </div>
 </div>
