@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row justify-content-center">
+        {{#each user}}
+        <div class="col-md-3 mt-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <img src="{{cover}}" alt="" class="img-fluid">
+                </div>
+
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Email: {{email}}</li>
+                        <li class="list-group-item">Rol: {{role}}</li>
+                    </ul>
+                    <a href="/usuarios/detalles/{{_id}}">x</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
