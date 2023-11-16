@@ -1,19 +1,13 @@
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-left">
         {{#each user}}
-        <div class="col-md-3 mt-3">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
+        <div class="card col-4 m-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="width: 19rem;">
+            <div class="card-body text-center">
                     <img src="{{cover}}" alt="" class="img-fluid">
-                </div>
-
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">Email: {{email}}</li>
-                        <li class="list-group-item">Rol: {{role}}</li>
-                    </ul>
-                    <a href="/usuarios/detalles/{{_id}}">x</a>
-                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{username}}</h5>
+                <a href="/usuarios/detalles/{{_id}}" class="btn btn-outline-success">Ver Perfil</a>
             </div>
         </div>
         {{/each}}

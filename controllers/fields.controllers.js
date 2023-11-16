@@ -15,9 +15,7 @@ const renderDetailField = (req, res, next) => {
             Match.find({ field: field_id })
         ]
     )
-        .then(([field, matches]) => {
-            res.render('fields/field-details', { field, matches })
-        })
+        .then(([field, matches]) => res.render('fields/field-details', { field, matches }))
         .catch(err => next(err))
 }
 

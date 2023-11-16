@@ -19,13 +19,17 @@
         </div>
     </div>
     <hr>
-    
+    <div class="row">
     {{#each match.assistants}}
-        <div class="card col-6" style="width: 19rem;">
+        <div class="card col-6 shadow-lg p-3 mb-5 bg-body-tertiary rounded m-3" style="width: 19rem;">
+            <div class="card-body text-center">
+                    <img src="{{cover}}" alt="" class="img-fluid">
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{username}}</h5>
                 <a href="/usuarios/detalles/{{_id}}" class="btn btn-outline-success">Ver Perfil</a>
             </div>
         </div>
     {{/each}}
+    </div>
 </div>

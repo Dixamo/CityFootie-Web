@@ -3,23 +3,36 @@ const Match = require('../models/Match.model')
 
 
 const renderUserProfile = (req, res, next) => {
-    res.render('user/user-details', { user: req.session.currentUser, owner: true, organizer: req.session.currentUser.role === 'ORGANIZER' })
-
+    Match
+        .find({ assistants: req.session.currentUser._id })
+        .then(matches => {
+            res.render('user/user-details', { 
+                user: req.session.currentUser,
+                matches,
+                owner: true,
+                organizer: req.session.currentUser.role === 'ORGANIZER'
+            })
+        })
 }
 
 const renderUserDetails = (req, res, next) => {
     const { user_id } = req.params
 
-    // Promise.all(
-    //     [
-    //         User.findById(user_id),
-    //         Match.find({ assistants: user_id })
-    //     ]
-    // )
-    User
-        .findById(user_id)
-        .then(user => res.render('user/user-details', { user, owner: req.session.currentUser._id === user_id, organizer: req.session.currentUser.role === 'ORGANIZER' }))
-        .catch(err => next(err))
+    Promise.all(
+        [
+            User.findById(user_id),
+            Match.find({ assistants: user_id })
+        ]
+    )
+    .then(([user, matches]) => {
+        res.render('user/user-details', { 
+            user,
+            matches,
+            owner: req.session.currentUser._id === user_id,
+            organizer: req.session.currentUser.role === 'ORGANIZER'
+        })
+    })
+    .catch(err => next(err))
 }
 
 const renderEditUser = (req, res, next) => {
