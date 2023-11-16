@@ -1,4 +1,17 @@
 #map {
-    height: 600px;
+    height: 550px;
     background-color: lightgray;
+}
+
+#myCarousel {
+    height: 450px;
+}
+  
+#myCarousel img {
+    height: 450px;
+    object-fit: cover;
+}
+
+#myCarousel .bottom img {
+    object-position: bottom;
 }
