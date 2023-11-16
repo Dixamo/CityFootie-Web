@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { isLoggedIn, checkRoles } = require('../middleware/route.guard')
-const { 
+const {
     renderUserProfile,
     renderUserDetails,
     renderEditUser,

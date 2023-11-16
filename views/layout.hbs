@@ -21,18 +21,22 @@
          </button>
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               {{#unless response.logged}}
                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/registrarse">Registrarse</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/iniciar-sesion">Iniciar Sesion</a>
                </li>
+
+               {{/unless}}
+               {{#if response.logged}}
                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/cerrar-sesion">Cerrar Sesion</a>
-               </li>
                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/mapa">Mapa</a>
                </li>
+               {{/if}}
                <li class="nav-item">
                   <a class="nav-link" href="#">Link</a>
                </li>

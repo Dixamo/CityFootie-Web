@@ -1,16 +1,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 mt-5">
-            <div class="row justify-content-between">
+            <div class="row justify-content-between align-items-center">
                 <h1 class="col-md-6">{{user.username}}</h1>
                 {{#if owner}}
-                    <div class="col-md-2">
-                        <a href="/usuarios/editar/{{user._id}}" class="btn btn-outline-success mt-1">Editar</a>
-                    </div>
+                <div class="col-md-2">
+                    <a href="/usuarios/editar/{{user._id}}" class="btn btn-outline-success mt-1">Editar</a>
+                </div>
                 {{/if}}
             </div>
             <hr>
-            <img src="{{user.cover}}" alt="">
+
+            <!-- Nueva estructura para centrar la imagen -->
+            <div class="row justify-content-center">
+                <div class="col-md-6 mt-3 text-center">
+                    <img src="{{user.cover}}" alt="" class="img-fluid">
+                </div>
+            </div>
 
             <div class="row justify-content-center">
                 <div class="col-md-6 mt-3">
@@ -20,12 +26,13 @@
                     </ul>
                 </div>
             </div>
+
             {{#if organizer}}
-                <div class="row justify-content-end">
-                    <div class="col-md-2 mt-5">
-                        <a href="/usuarios/borrar/{{user._id}}" class="btn btn-outline-danger mt-1">Eliminar</a>
-                    </div>
+            <div class="row justify-content-end">
+                <div class="col-md-2 mt-5">
+                    <a href="/usuarios/borrar/{{user._id}}" class="btn btn-outline-danger mt-1">Eliminar</a>
                 </div>
+            </div>
             {{/if}}
         </div>
     </div>
