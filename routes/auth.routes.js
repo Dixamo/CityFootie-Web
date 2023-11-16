@@ -19,12 +19,6 @@ router.post('/registrarse', isLoggedOut, claudinary.single('cover'), (req, res, 
     const { path: cover } = req.file ? req.file : '../public/images/imgpre.png'
     const { username, email, plainPassword } = req.body
 
-    console.log(req.file.path)
-    // req.file
-    // if (path === undefined) {
-    //     return cover = '../public/images/imgpre.png'
-    // }
-
     bcrypt
         .genSalt(saltRounds)
         .then(salt => bcrypt.hash(plainPassword, salt))
