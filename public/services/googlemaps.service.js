@@ -23,6 +23,26 @@ class GoogleMapsService {
       marker.addListener('click', () => location.href = `/campos/detalles/${elm._id}`)
     })
   }
+
+  getUserLocation() {
+    navigator.geolocation.getCurrentPosition(
+        position => this.updateMapPosition(position),
+        error => console.error('EL ERROR ES', error)
+    )
+  }
+
+  updateMapPosition({ coords }) {
+
+    const { latitude: lat, longitude: lng } = coords
+    map.setCenter({ lat, lng })
+
+    console.log(google.maps)
+
+    new google.maps.Circle({
+        position: { lat, lng },
+        map: map
+    })
+  }
 }
 
 const googleMapsService = new GoogleMapsService()

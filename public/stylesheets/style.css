@@ -1,6 +1,7 @@
 #map {
     height: 550px;
     background-color: lightgray;
+    border-radius: 25px;
 }
 
 #myCarousel {
@@ -24,7 +25,7 @@ body {
 }
 
 body {
-    background: radial-gradient(ellipse at center, rgba(199, 224, 206, 1) 0%, rgba(199, 224, 206, 1) 35%, #AADDBB 100%);
+    background: radial-gradient(ellipse at center, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 35%, #dbffe6 100%);
     overflow: hidden;
 }
 

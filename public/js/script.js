@@ -7,6 +7,7 @@ let map
 function init() {
   renderMap()
   googleMapsService.getFieldFromApi()
+  googleMapsService.getUserLocation()
 }
 
 function renderMap() {

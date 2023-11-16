@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{date}}</h5>
                     <a href="/partidos/detalles/{{_id}}" class="btn btn-success">Detalles</a>
-                    {{#if permissions}}
+                    {{#if ../permissions}}
                         <a href="/partidos/editar/{{_id}}" class="btn btn-outline-success">Editar</a>
                         <a href="/partidos/borrar/{{_id}}" class="btn btn-outline-danger">Eliminar</a>
                     {{/if}}
