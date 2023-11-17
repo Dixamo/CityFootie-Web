@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 
 const MONGO_URI =
-  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/cityfootie"
+  process.env.MONGODB_URI || "mongodb+srv://juanda:l0yEbA5E6djJrc1X@cityfootie.lfzswgj.mongodb.net/cityfootie?retryWrites=true&w=majority"
 
 mongoose
   .connect(MONGO_URI)

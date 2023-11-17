@@ -19,7 +19,7 @@ module.exports = app => {
                 maxAge: 600000
             },
             store: MongoStore.create({
-                mongoUrl: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/cityfootie"
+                mongoUrl: process.env.MONGODB_URI || "mongodb+srv://juanda:l0yEbA5E6djJrc1X@cityfootie.lfzswgj.mongodb.net/cityfootie?retryWrites=true&w=majority"
             })
 
         })
