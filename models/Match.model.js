@@ -22,8 +22,6 @@ const matchSchema = new Schema(
   }
 )
 
-// matchSchema.index({ date: 1 }, { unique: true })
-
 const Match = model("Match", matchSchema)
 
 module.exports = Match
